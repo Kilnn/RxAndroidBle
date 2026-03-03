@@ -9,7 +9,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Build;
 
 import androidx.annotation.Nullable;
@@ -37,6 +36,7 @@ import com.polidea.rxandroidble2.internal.scan.ScanSetupBuilderImplApi23;
 import com.polidea.rxandroidble2.internal.serialization.ClientOperationQueue;
 import com.polidea.rxandroidble2.internal.serialization.ClientOperationQueueImpl;
 import com.polidea.rxandroidble2.internal.serialization.RxBleThreadFactory;
+import com.polidea.rxandroidble2.internal.util.LocationManagerWrapper;
 import com.polidea.rxandroidble2.internal.util.LocationServicesOkObservableApi23Factory;
 import com.polidea.rxandroidble2.internal.util.LocationServicesStatus;
 import com.polidea.rxandroidble2.internal.util.LocationServicesStatusApi18;
@@ -288,8 +288,8 @@ public interface ClientComponent {
         }
 
         @Provides
-        static LocationManager provideLocationManager(Context context) {
-            return (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        static LocationManagerWrapper provideLocationManager(Context context) {
+            return new LocationManagerWrapper(context);
         }
 
         @Provides
