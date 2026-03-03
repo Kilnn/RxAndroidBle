@@ -58,6 +58,9 @@ if (isAndroidProject()) {
 }
 
 afterEvaluate { project ->
+    // 私有 Maven 通常不需要 GPG 签名；未配置 signatory 时不强制签名，避免报错
+    signing.required = false
+
     publishing {
         repositories {
             maven {
@@ -70,6 +73,9 @@ afterEvaluate { project ->
         }
         publications {
             release(MavenPublication) {
+                if (project.hasProperty('POM_ARTIFACT_ID')) {
+                    artifactId = project.property('POM_ARTIFACT_ID')
+                }
                 afterEvaluate {
                     if (isAndroidProject(project)) {
                         from components.release
